@@ -9,8 +9,9 @@
       javaVersion = 25;
       # The headless version of the JDK excludes GUI components - if you don't
       # need them, that makes for a lighter install:
-      headless = false;
-      jdk_name = "jdk${toString javaVersion}${if headless then "_headless" else ""}";
+      headless = true;
+      suffix = if headless then "_headless" else "";
+      jdk_name = "jdk${toString javaVersion}${suffix}";
 
       supportedSystems = [
         "x86_64-linux"
@@ -45,6 +46,7 @@
         {
           default = pkgs.mkShellNoCC {
             packages = with pkgs; [
+              clojure.jdk
               clojure
             ];
             JAVA_HOME = pkgs.clojure.jdk;
