@@ -2,12 +2,25 @@
 #+author: Chris Chambers
 #+language: en-gb
 
-To bootstrap a Clojure Project:
-#+begin_src bash :noeval
-  nix flake init -t github:chrischambers/nix#clojure
+Creates isolated, local, reproducible development environments using nix.
+
+To bootstrap a Project:
+#+begin_src sh :noeval
+  # from within a project:
+  nix flake init -t github:chrischambers/nix#${language}
+  # from outside a project:
+  nix flake new -t github:chrischambers/nix#${language} ${new_project_directory}
 #+end_src
 
-To bootstrap a Python Project:
-#+begin_src bash :noeval
-  nix flake init -t github:chrischambers/nix#python
+For example, to start your grand plan project in Clojure:
+#+begin_src sh :noeval
+  nix flake new -t github:chrischambers/nix#clojure ~/src/grand_plan
 #+end_src
+
+After selecting a project template, you can activate the shell two ways:
+
+- Preferred: If you have [[https://direnv.net/][direnv]] and [[https://github.com/nix-community/nix-direnv][nix-direnv]] installed, run
+   src_bash[:exports code]{direnv allow} once from within the directory.
+   Any time you =cd= into the directory in future you'll have access to the shell.
+- Otherwise, run src_bash[:exports code]{nix develop} from within the directory
+  each time you want to use it.
