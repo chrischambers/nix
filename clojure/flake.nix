@@ -4,12 +4,15 @@
   outputs =
     { self, nixpkgs, ... }:
 
+    # NOTE: It turns out that jdk25 and jdk25_headless point to the same thing
+    # as of nixos-25.11, but theoretically they may not. I'll keep this selector
+    # now, even though it's meaningless.
     let
       # Change this value to update the whole stack:
       javaVersion = 25;
       # The headless version of the JDK excludes GUI components - if you don't
       # need them, that makes for a lighter install:
-      headless = true;
+      headless = false;
       suffix = if headless then "_headless" else "";
       jdk_name = "jdk${toString javaVersion}${suffix}";
 
