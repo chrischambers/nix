@@ -19,8 +19,8 @@ For example, to start your grand plan project in Clojure:
 
 After selecting a project template, you can activate the shell two ways:
 
-- Preferred: If you have [[https://direnv.net/][direnv]] and [[https://github.com/nix-community/nix-direnv][nix-direnv]] installed, run
-   src_bash[:exports code]{direnv allow} once from within the directory.
-   Any time you =cd= into the directory in future you'll have access to the shell.
-- Otherwise, run src_bash[:exports code]{nix develop} from within the directory
-  each time you want to use it.
+- Preferred: If you have [[https://direnv.net/][direnv]] and [[https://github.com/nix-community/nix-direnv][nix-direnv]] installed, run ~direnv allow~ once
+  from within the directory. Any time you =cd= into the directory in future you'll
+  have access to the shell.
+- Otherwise, run =nix develop= from within the directory each time you want to use
+  it.
