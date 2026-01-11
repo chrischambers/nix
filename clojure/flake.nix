@@ -7,6 +7,10 @@
     let
       # Change this value to update the whole stack:
       javaVersion = 25;
+      # The headless version of the JDK excludes GUI components - if you don't
+      # need them, that makes for a lighter install:
+      headless = false;
+      jdk_name = "jdk${toString javaVersion}${if headless then "_headless" else ""}";
 
       supportedSystems = [
         "x86_64-linux"
@@ -30,7 +34,7 @@
       overlays.default =
         final: prev:
         let
-          jdk = prev."jdk${toString javaVersion}";
+          jdk = prev."${jdk_name}";
         in
         {
           clojure = prev.clojure.override { inherit jdk; };
@@ -43,6 +47,7 @@
             packages = with pkgs; [
               clojure
             ];
+            JAVA_HOME = pkgs.clojure.jdk;
           };
         }
       );
