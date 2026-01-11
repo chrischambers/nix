@@ -1,0 +1,13 @@
+#+title: Nix Development Flakes
+#+author: Chris Chambers
+#+language: en-gb
+
+To bootstrap a Clojure Project:
+#+begin_src sh :noeval
+  nix flake init -t github:chrischambers/nix#clojure
+#+end_src
+
+To bootstrap a Python Project:
+#+begin_src sh :noeval
+  nix flake init -t github:chrischambers/nix#python
+#+end_src

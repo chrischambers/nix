@@ -1,0 +1,11 @@
+[project]
+name = "FIXME: <Project Name>"
+version = "1.0.0"
+description = "FIXME: <Project Description>"
+authors = ["Chris Chambers"]
+requires-python = ">=3.13"
+dependencies = [
+    "basedpyright>=1.37.1",
+    "ipython>=9.9.0",
+    "ruff>=0.14.11",
+]

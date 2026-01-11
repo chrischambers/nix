@@ -1,10 +1,18 @@
 {
-  description = "Python development environment (uv)";
+  description = ''
+    Python development environment combining nix and uv.
 
+    - System/external dependencies are managed by nix:
+      flake.nix and flake.lock are the source of truth
+      for these deps.
+
+    - Python package dependencies are managed by uv:
+      pyproject.toml and uv.lock are the source of truth
+      for these deps.
+  '';
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-
   outputs =
-    { self, ... }@inputs:
+    { nixpkgs, ... }:
 
     let
       supportedSystems = [
@@ -15,84 +23,40 @@
       ];
       forEachSupportedSystem =
         f:
-        inputs.nixpkgs.lib.genAttrs supportedSystems (
+        nixpkgs.lib.genAttrs supportedSystems (
           system:
           f {
-            pkgs = import inputs.nixpkgs { inherit system; };
+            pkgs = import nixpkgs { inherit system; };
           }
         );
-
-      /*
-        Change this value ({major}.{min}) to
-        update the Python virtual-environment
-        version. When you do this, make sure
-        to delete the `.venv` directory to
-        have the hook rebuild it for the new
-        version, since it won't overwrite an
-        existing one. After this, reload the
-        development shell to rebuild it.
-        You'll see a warning asking you to
-        do this when version mismatches are
-        present. For safety, removal should
-        be a manual step, even if trivial.
-      */
-      version = "3.13";
     in
     {
       devShells = forEachSupportedSystem (
         { pkgs }:
-        let
-          concatMajorMinor =
-            v:
-            pkgs.lib.pipe v [
-              pkgs.lib.versions.splitVersion
-              (pkgs.lib.sublist 0 2)
-              pkgs.lib.concatStrings
-            ];
-
-          python = pkgs."python${concatMajorMinor version}";
-        in
         {
           default = pkgs.mkShellNoCC {
-            venvDir = ".venv";
+            # NOTE: This should be for system/external dependencies only.
 
-            postShellHook = ''
-              venvVersionWarn() {
-                local venvVersion
-                venvVersion="$("$venvDir/bin/python" -c 'import platform; print(platform.python_version())')"
-
-                [[ "$venvVersion" == "${python.version}" ]] && return
-
-                cat <<EOF
-              Warning: Python version mismatch: [$venvVersion (venv)] != [${python.version}]
-                       Delete '$venvDir' and reload to rebuild for version ${python.version}
-              EOF
-              }
-
-              venvVersionWarn
-            '';
-
-            packages = with python.pkgs; [
-              venvShellHook
+            # You need to let uv manage the python dependencies through its
+            # mechanisms, so don't add any pkgs.python3XXPackages entries here:
+            packages = with pkgs; [
+              python3
               uv
-              pkgs.basedpyright
-              ruff
-              ipython
-              dateutils
             ];
+
+            # NOTE: These entries are shamelessly cargo-culted from
+            # https://github.com/pyproject-nix/pyproject.nix:
 
             env = pkgs.lib.optionalAttrs pkgs.stdenv.isLinux {
               # Python libraries often load native shared objects using dlopen(3).
               # Setting LD_LIBRARY_PATH makes the dynamic library loader aware of libraries without using RPATH for lookup.
               LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath pkgs.pythonManylinuxPackages.manylinux1;
             };
-
             shellHook = ''
               unset PYTHONPATH
               uv sync
               . .venv/bin/activate
             '';
-
           };
         }
       );
