@@ -6,20 +6,20 @@ Creates isolated, local, reproducible development environments using nix.
 
 To bootstrap a Project:
 #+begin_src sh :noeval
-  # from within a project:
+  # from within a project directory:
   nix flake init -t github:chrischambers/nix#${language}
-  # from outside a project:
+  # Alternatively, to create the project directory whilst bootstrapping:
   nix flake new -t github:chrischambers/nix#${language} ${new_project_directory}
 #+end_src
 
-For example, to start your grand plan project in Clojure:
+For example, to start your "grand plan" project in Clojure:
 #+begin_src sh :noeval
-  nix flake new -t github:chrischambers/nix#clojure ~/src/grand_plan
+  nix flake new -t github:chrischambers/nix#clojure ~/schemes/grand_plan
 #+end_src
 
 After selecting a project template, you can activate the shell two ways:
 
-- Preferred: If you have [[https://direnv.net/][direnv]] and [[https://github.com/nix-community/nix-direnv][nix-direnv]] installed, run ~direnv allow~ once
+- *Preferred*: If you have [[https://direnv.net/][direnv]] and [[https://github.com/nix-community/nix-direnv][nix-direnv]] installed, run ~direnv allow~ once
   from within the directory. Any time you =cd= into the directory in future you'll
   have access to the shell.
 - Otherwise, run =nix develop= from within the directory each time you want to use
