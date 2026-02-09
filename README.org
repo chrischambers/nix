@@ -13,8 +13,8 @@ To bootstrap a Project:
 #+end_src
 
 #+begin_note
- Your system may cache this template (possibly keyed on the current date): if
- you need to bust this cache, provide the =--refresh= flag.
+ Your system may cache the templates used within this project (possibly keyed on
+ the current date): if you need to bust this cache, provide the =--refresh= flag.
 #+end_note
 
 For example, to start your "grand plan" project in Clojure:
@@ -27,5 +27,17 @@ After selecting a project template, you can activate the shell two ways:
 - *Preferred*: If you have [[https://direnv.net/][direnv]] and [[https://github.com/nix-community/nix-direnv][nix-direnv]] installed, run ~direnv allow~ once
   from within the directory. Any time you =cd= into the directory in future you'll
   have access to the shell.
+
+  You should probably also use tooling (e.g. [[https://github.com/purcell/envrc][envrc]] for [[https://www.gnu.org/software/emacs/][emacs]]) to achieve the
+  same thing in your text editor.
 - Otherwise, run =nix develop= from within the directory each time you want to use
   it.
+
+#+begin_important
+ Avoid pinning your clojure version in your deps.edn file - this will supercede
+ the one you are specifying in the flake.
+#+end_important
+
+* Useful Resources
+  - [[https://github.com/the-nix-way/dev-templates][GitHub - the-nix-way/dev-templates]]
+  - [[https://github.com/akirak/flake-templates][GitHub - akirak/flake-templates]]
