@@ -1,0 +1,21 @@
+.DS_Store
+*.sqlite
+*.db
+tags
+.direnv/
+
+# Editor
+# ------
+\#*\#
+*.swp
+
+# Clojure:
+# --------
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+/classes/
+/target/
+.nrepl-port
+.cpcache/
