@@ -4,11 +4,20 @@ version = "1.0.0"
 description = "FIXME: <Project Description>"
 authors = ["Chris Chambers"]
 requires-python = ">=3.13"
-dependencies = [
-    "basedpyright>=1.37.1",
-    "ipython>=9.9.0",
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.37.4",
+    "ipython>=9.10.0",
+    "isort>=7.0.0",
     "pytest>=9.0.2",
     "pytest-describe>=3.1.0",
     "pytest-spec>=5.2.0",
-    "ruff>=0.14.11",
+    "ruff>=0.15.0",
 ]
+
+[tool.pytest.ini_options]
+addopts = "--spec"
+testpaths = ["tests"]
+pythonpath = ["src"]
