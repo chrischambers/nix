@@ -53,6 +53,10 @@
               clojure
             ];
             JAVA_HOME = pkgs.clojure.jdk;
+            shellHook = ''
+              export FLOWSTORM_STYLES="$HOME/.config/flowstorm/catppuccin.css"
+              export JAVA_OPTS="$JAVA_OPTS -Dflowstorm.styles=$FLOWSTORM_STYLES"
+            '';
           };
         }
       );
