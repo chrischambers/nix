@@ -15,6 +15,10 @@
           path = ./clojure;
           description = "Clojure dev environment";
         };
+        haskell = {
+          path = ./haskell;
+          description = "Haskell dev environment";
+        };
       };
     };
 }
